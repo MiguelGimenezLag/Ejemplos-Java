@@ -1,5 +1,5 @@
 /* 2021
- * Programador: Miguel Giménez Lag
+ * Programador: Miguel GimÃ©nez Lag
  */
 package programacionhilos;
 
@@ -12,49 +12,47 @@ public class Main {
 	static Random r = new Random();
 	public static void main(String[] args) {
 		/* 
-		 * El presente ejercicio fue parte de mi examen final de Programación de Servicios y Procesos, por el profesor Pedro Pablo García.
-		 * Obtuve la máxima puntuación posible en dicho examen. Con esta afirmación solo intento demostrar que no he copiado la solución 
-		 * que, por otra parte, no llegamos a ver en clase.
-		 * Sí debo señalar que el código a continuación presentado incluye algunos retoques y  mejoras, además de comentarios explicativos.
-		 * Se pedía:
-		 * 1 - Generar una matriz cuadrada cuyas dimensiones deben ser 6 o más y siempre múltiplo de 3. 
-		 * El usuario introduce el tamaño y se controla que cumpla la condición.
-		 * 2 - Rellenar dicha matriz con números aleatorios de 1 a 255
-		 * 3 - Mediante Hilos (tantos como núcleos tenga el equipo), recorrer la matriz. Hay que analizar las columnas de tres en tres. 
+		 * El presente ejercicio fue parte de mi examen final de ProgramaciÃ³n de Servicios y Procesos, por el profesor Pedro Pablo GarcÃ­a.
+		 * SÃ­ debo seÃ±alar que el cÃ³digo a continuaciÃ³n presentado incluye algunos retoques y  mejoras, ademÃ¡s de comentarios explicativos.
+		 * Se pedÃ­a:
+		 * 1 - Generar una matriz cuadrada cuyas dimensiones deben ser 6 o mÃ¡s y siempre mÃºltiplo de 3. 
+		 * El usuario introduce el tamaÃ±o y se controla que cumpla la condiciÃ³n.
+		 * 2 - Rellenar dicha matriz con nÃºmeros aleatorios de 1 a 255
+		 * 3 - Mediante Hilos (tantos como nÃºcleos tenga el equipo), recorrer la matriz. Hay que analizar las columnas de tres en tres. 
 		 * La primera columna de cada terna indica valores rojos,
-		 * la segunda, verdes, y la tercera, azules. Por cada trío se irá comprobando cuál de los tres valores es mayor,
+		 * la segunda, verdes, y la tercera, azules. Por cada trÃ­o se irÃ¡ comprobando cuÃ¡l de los tres valores es mayor,
 		 * si el rojo, el verde o el azul, guardando .
-		 * Además, se sumarán todos los valores correspondientes a cada color.
-		 * 4 - Se mostrará el total de cada color, indicando cuál es el tono predominante.
-		 * También se mostrará para cada color cuántas veces ha sido el mayor de su terna, y el porcentaje que respresenta sobre el total.
+		 * AdemÃ¡s, se sumarÃ¡n todos los valores correspondientes a cada color.
+		 * 4 - Se mostrarÃ¡ el total de cada color, indicando cuÃ¡l es el tono predominante.
+		 * TambiÃ©n se mostrarÃ¡ para cada color cuÃ¡ntas veces ha sido el mayor de su terna, y el porcentaje que respresenta sobre el total.
 		 */
 		
-		//Variable empleada para almacenar valores mandados desde los hilos, sincronizándolos para evitar errores
+		//Variable empleada para almacenar valores mandados desde los hilos, sincronizÃ¡ndolos para evitar errores
 		Almacen al = new Almacen();
 		
 		int [][] matriz = generaMatrizAleatoria();
 		mostrarMatriz(matriz);
 		
-		//Para saber cuántos núcleos tiene el equipo empleo Runtime, y a partir de este número se generarán los Hilos.
+		//Para saber cuÃ¡ntos nÃºcleos tiene el equipo empleo Runtime, y a partir de este nÃºmero se generarÃ¡n los Hilos.
 		Runtime rt = Runtime.getRuntime();
 		int numCores = rt.availableProcessors();
-		//Con este condicional se controla que no se generen más Hilos de los necesarios para evitar su infrautilización.
+		//Con este condicional se controla que no se generen mÃ¡s Hilos de los necesarios para evitar su infrautilizaciÃ³n.
 		if (numCores > matriz.length) {  
 			numCores = matriz.length;	
 		}
-		/*Java trunca la división por defecto, pero para que quede más claro
-		que debe redondear a la baja dejo explícito el math.floor 
-		Con estas variables se definen los rangos de actuación de cada hilo (cuántas filas va a examinar cada uno)*/
+		/*Java trunca la divisiÃ³n por defecto, pero para que quede mÃ¡s claro
+		que debe redondear a la baja dejo explÃ­cito el math.floor 
+		Con estas variables se definen los rangos de actuaciÃ³n de cada hilo (cuÃ¡ntas filas va a examinar cada uno)*/
 		int rango = (int) Math.floor(matriz.length/numCores);   
 		int posIni = 0;										  
 		int posFin = rango;
 		
-		//Se crea un array de Hilos con las dimensiones obtenidas para el número de núcleos
+		//Se crea un array de Hilos con las dimensiones obtenidas para el nÃºmero de nÃºcleos
 		Thread [] th = new Thread [numCores];
-	    /*Y se lanzan los hilos, recibiendo como parámetros dónde empiezan a analizar, dónde acaban, la matriz y el Almacén
+	    /*Y se lanzan los hilos, recibiendo como parÃ¡metros dÃ³nde empiezan a analizar, dÃ³nde acaban, la matriz y el AlmacÃ©n
 		 *Las posiciones de inicio y fin se van actualizando para cada hilo, 
-		 *controlando con el if final que el último hilo realice toda la tarea restante, 
-		 *en caso de que la división con la que se obtiene el rango no fuera exacta
+		 *controlando con el if final que el Ãºltimo hilo realice toda la tarea restante, 
+		 *en caso de que la divisiÃ³n con la que se obtiene el rango no fuera exacta
 		 */
 		for (int i = 0; i < th.length; i++) {
 			th[i] = new Thread (new RHilo(posIni, posFin, matriz, al));
@@ -79,7 +77,7 @@ public class Main {
 		int [] totalColores = al.getTotalColores();
 		//Se muestran los totales
 		System.out.println("La suma total de los colores rojos es "+totalColores[0]+", de los verdes "+totalColores[1]+" y de los azules "+totalColores[2]);
-		//Se calcula cuál es el tono general
+		//Se calcula cuÃ¡l es el tono general
 		if ((totalColores[0] > totalColores[1]) && (totalColores[0]>totalColores[1])) {
 			System.out.println("El tono general de la imagen es rojizo");
 		}else if((totalColores[1] > totalColores[0]) && (totalColores[1]>totalColores[2])) {
@@ -89,7 +87,7 @@ public class Main {
 		}
 		//Se saca la suma total
 		double sumaTodo = (double) (totalColores[0]+ totalColores[1] + totalColores[2]);
-		//Y se calculan los porcentajes, pequeño arreglo para que solo salgan dos decimales
+		//Y se calculan los porcentajes, pequeÃ±o arreglo para que solo salgan dos decimales
 		double porcentajeRojo = (totalColores[0]*100)/sumaTodo;
 		porcentajeRojo = Math.round(porcentajeRojo * 100.0)/ 100.0;
 		double porcentajeVerde = (totalColores[1]*100)/sumaTodo;
@@ -97,17 +95,17 @@ public class Main {
 		double porcentajeAzul = (totalColores[2]*100)/sumaTodo;
 		porcentajeAzul = Math.round(porcentajeAzul * 100.0)/ 100.0;
 		
-		//Muestra cuántas veces ha sido dominante cada color y el porcentaje que representa respecto al total
-		System.out.println("El número total de rojos es "+colores[0]+" y su porcentaje es "+porcentajeRojo);
-		System.out.println("El número total de verdes es "+colores[1]+" y su porcentaje es "+porcentajeVerde);
-		System.out.println("El número total de azules es "+colores[2]+" y su porcentaje es "+porcentajeAzul);
+		//Muestra cuÃ¡ntas veces ha sido dominante cada color y el porcentaje que representa respecto al total
+		System.out.println("El nÃºmero total de rojos es "+colores[0]+" y su porcentaje es "+porcentajeRojo);
+		System.out.println("El nÃºmero total de verdes es "+colores[1]+" y su porcentaje es "+porcentajeVerde);
+		System.out.println("El nÃºmero total de azules es "+colores[2]+" y su porcentaje es "+porcentajeAzul);
 	
 
 	}
 	/**
 	 * Recibe la matriz generada y la muestra por consola. Para que las columnas queden alineadas,
-	 * se controla la longitud de cada número y en función de ella se dan más o menos espacios.
-	 * @param matriz generada previamente con el método generaMatrizAleatoria().
+	 * se controla la longitud de cada nÃºmero y en funciÃ³n de ella se dan mÃ¡s o menos espacios.
+	 * @param matriz generada previamente con el mÃ©todo generaMatrizAleatoria().
 	 * @return void
 	 */
 	private static void mostrarMatriz(int[][] matriz) {
@@ -127,11 +125,11 @@ public class Main {
 		
 	}
 	/**
-	 * Método invocado desde la declaración de una matriz.
-	 * El usuario debe introducir las dimensiones cumpliendo las condiciones dadas. Se controla que el usuario podría introducir un dato erróneo, 
+	 * MÃ©todo invocado desde la declaraciÃ³n de una matriz.
+	 * El usuario debe introducir las dimensiones cumpliendo las condiciones dadas. Se controla que el usuario podrÃ­a introducir un dato errÃ³neo, 
 	 * ya sea un entero que no cumpla las condiciones u otro tipo de dato.
-	 * Hecho esto, se declara una matriz resultado con las dimensiones dadas y se rellena con números aleatorios.
-	 * @return la matriz resultado, con las dimensiones deseadas y ya rellenada, que se almacenará en la matriz declarada con la llamada del método.
+	 * Hecho esto, se declara una matriz resultado con las dimensiones dadas y se rellena con nÃºmeros aleatorios.
+	 * @return la matriz resultado, con las dimensiones deseadas y ya rellenada, que se almacenarÃ¡ en la matriz declarada con la llamada del mÃ©todo.
 	 */
 	private static int[][] generaMatrizAleatoria() {
 		int tama = -1;
@@ -139,7 +137,7 @@ public class Main {
 		boolean seguir = true;
 		do {
 			try {
-				System.out.println("Introduce las dimensiones de una matriz cuadrada. Debe ser un entero mayor que 6 y múltiplo de 3");
+				System.out.println("Introduce las dimensiones de una matriz cuadrada. Debe ser un entero mayor que 6 y mÃºltiplo de 3");
 				n = sc.nextInt();
 			} catch (Exception e) {
 				System.err.println("NO se ha introducido un ENTERO");
