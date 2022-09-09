@@ -21,7 +21,7 @@ public class Main {
 		 * 3 - Mediante Hilos (tantos como núcleos tenga el equipo), recorrer la matriz. Hay que analizar las columnas de tres en tres. 
 		 * La primera columna de cada terna indica valores rojos,
 		 * la segunda, verdes, y la tercera, azules. Por cada trío se irá comprobando cuál de los tres valores es mayor,
-		 * si el rojo, el verde o el azul, guardando .
+		 * si el rojo, el verde o el azul, guardando los valores totales.
 		 * Además, se sumarán todos los valores correspondientes a cada color.
 		 * 4 - Se mostrará el total de cada color, indicando cuál es el tono predominante.
 		 * También se mostrará para cada color cuántas veces ha sido el mayor de su terna, y el porcentaje que respresenta sobre el total.
